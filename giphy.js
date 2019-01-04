@@ -22,7 +22,7 @@ $(document).ready(function() {
     'Sponge Bob'
   ];
 
-  let apiKey = 'BaQP9zdxQzj0WoZ5JfWm92wsN34uwwNI';
+  const apiKey = 'BaQP9zdxQzj0WoZ5JfWm92wsN34uwwNI';
   let buttonMaker;
 
   function buttonRender() {
@@ -45,17 +45,64 @@ $(document).ready(function() {
       url: queryURL10,
       method: 'GET'
     }).then(function(res) {
-      let body = res.json
-      return body
-    })
-    .then(function (body) {
-      console.log(body);
+      console.log(res);
+      // let body = res.json
+      // console.log(body);
+      // return body
+      $('#insert-giphy').empty();
+      for (let i = 0; i < topics.length; i++) {
+        let fixed_height_still_url = res.data[i].images.fixed_height_still.url;
 
-    }) 
-    
-    ////////////////////////////////////
-    /////// fetch way <-- needs fixing////
-    /*
+        let imgHolder = $('<img>');
+
+        imgHolder.attr('data-imageType', fixed_height_still_url);
+        // let makeMove = imgHolder.attr("data-imageType", fixed_height_still_url)
+
+        imgHolder.attr('src', fixed_height_still_url);
+        imgHolder.addClass('giphy-image');
+        $('#insert-giphy').prepend(imgHolder);
+        // $('#insert-giphy').prepend(`<img src="${fixed_height_still_url}">`);
+      }
+    });
+  };
+
+  // When specific image is clicked, make animate, or stop animation
+  $('.giphies').on('click', 'giphy-image', function() {
+    // let gifInQuestion = $(this).("data-imageType")
+
+    if (imgHolder.attr('data-imageType' == fixed_height_still_url)) {
+      gifInQuestion.attr('data-imageType', makeMove);
+      $(this).html('Hi make move');
+    } else if (imgHolder.attr('data-imageType' == looping_url)) {
+      gifInQuestion.attr('data-imageType', makeStill);
+      $(this).html('Hi make still');
+    }
+
+    imgHolder.attr('src', fixed_height_still_url);
+    $(this).html();
+  });
+
+  // let animationSwitch = function () {
+  //   let fixed_height_still_url = res.data[i].images.fixed_height_still.url;
+  //   let looping_url = res.data[i].images.looping.mp4;
+
+  //   let imgHolder = $("<img>")
+
+  //   let makeStill = imgHolder.attr("data-imageType", fixed_height_still_url)
+  //   let makeMove = imgHolder.attr("data-imageType", fixed_height_still_url)
+
+  //   imgHolder.attr("src", fixed_height_still_url)
+  //   $('#insert-giphy').prepend(imgHolder);
+  // }
+  show10();
+  // .then(function (body) {
+  //   console.log(body);
+
+  // })
+
+  ////////////////////////////////////
+  /////// fetch way <-- needs fixing////
+  /*
   fetch(`${queryURL10}`)
     .then(res => res.json())
     .then(function(res) {
@@ -70,11 +117,8 @@ $(document).ready(function() {
     });
 }
 */ $(
-      '.clickMon'
-    ).on('click', '.button-topic', show10);
-
-    buttonRender();
-  };
+    '.clickMon'
+  ).on('click', '.button-topic', show10);
 
   buttonRender();
 });
