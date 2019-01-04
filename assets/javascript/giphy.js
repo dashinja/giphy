@@ -52,6 +52,7 @@ $(document).ready(function() {
       $('#insert-giphy').empty();
       for (let i = 0; i < topics.length; i++) {
         let fixed_height_still_url = res.data[i].images.fixed_height_still.url;
+        let animated_url = res.data[i].images.looping.mp4;
 
         let imgHolder = $('<img>');
 
@@ -59,66 +60,59 @@ $(document).ready(function() {
         // let makeMove = imgHolder.attr("data-imageType", fixed_height_still_url)
 
         imgHolder.attr('src', fixed_height_still_url);
+        imgHolder.attr('data-state', 'still');
+        imgHolder.attr('data-still', fixed_height_still_url);
+        imgHolder.attr('data-animate', animated_url);
         imgHolder.addClass('giphy-image');
         $('#insert-giphy').prepend(imgHolder);
         // $('#insert-giphy').prepend(`<img src="${fixed_height_still_url}">`);
+
+
+        
       }
     });
   };
 
+  function AnimateOrNot () {
+        // To Animate or Not to Animate
+        console.log('I exist already and I got clicked!');
+        let state = $(this).attr('data-state');
+        if (state === 'still') {
+          imgHolder.attr('src', animated_url);
+          $(this).attr('data-state', 'animated');
+        } else if (state === 'animated') {
+          imgHolder.attr('src', fixed_height_still_url);
+          $(this).attr('data-state', 'still');
+        } else {
+          alert('You messed up bad!');
+        }
+  }
   // When specific image is clicked, make animate, or stop animation
-  $('.giphies').on('click', 'giphy-image', function() {
-    // let gifInQuestion = $(this).("data-imageType")
+  // $('.giphies').on('click', 'giphy-image', function() {
+  //   // let gifInQuestion = $(this).("data-imageType")
 
-    if (imgHolder.attr('data-imageType' == fixed_height_still_url)) {
-      gifInQuestion.attr('data-imageType', makeMove);
-      $(this).html('Hi make move');
-    } else if (imgHolder.attr('data-imageType' == looping_url)) {
-      gifInQuestion.attr('data-imageType', makeStill);
-      $(this).html('Hi make still');
-    }
+  //   // To Animate or Not to Animate
+  //   console.log('I exist already and I got clicked!');
+  //   let state = $(this).attr('data-state');
+  //   if (state === 'still') {
+  //     imgHolder.attr('src', animated_url);
+  //     $(this).attr('data-state', 'animated');
+  //   } else if (state === 'animated') {
+  //     imgHolder.attr('src', fixed_height_still_url);
+  //     $(this).attr('data-state', 'still');
+  //   } else {
+  //     alert('You messed up bad!');
+  //   }
+  // });
 
-    imgHolder.attr('src', fixed_height_still_url);
-    $(this).html();
-  });
-
-  // let animationSwitch = function () {
-  //   let fixed_height_still_url = res.data[i].images.fixed_height_still.url;
-  //   let looping_url = res.data[i].images.looping.mp4;
-
-  //   let imgHolder = $("<img>")
-
-  //   let makeStill = imgHolder.attr("data-imageType", fixed_height_still_url)
-  //   let makeMove = imgHolder.attr("data-imageType", fixed_height_still_url)
-
-  //   imgHolder.attr("src", fixed_height_still_url)
-  //   $('#insert-giphy').prepend(imgHolder);
-  // }
   show10();
   // .then(function (body) {
   //   console.log(body);
 
   // })
 
-  ////////////////////////////////////
-  /////// fetch way <-- needs fixing////
-  /*
-  fetch(`${queryURL10}`)
-    .then(res => res.json())
-    .then(function(res) {
-      // console.log(JSON.stringify(res));
-    })
-    .then(function(res) {
-      let body = JSON.stringify(res);
-      // console.log(body.images.fixed_height_still.url);
-      console.log(body)
-      console.log(JSON.stringify(res))
-      $('#insert-giphy').html(`<img src= "${body.data[0].url}">`);
-    });
-}
-*/ $(
-    '.clickMon'
-  ).on('click', '.button-topic', show10);
+  $('.clickMon').on('click', '.button-topic', show10);
+  $('.clickMon').on('click', '.giphy-image', AnimateOrNot);
 
   buttonRender();
 });
