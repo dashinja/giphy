@@ -40,9 +40,20 @@ $(document).ready(function() {
     }
   }
 
-  function show10() {
-    let chosenTopic = $(this).attr('data-name');
-    let queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+  function show10(topic) {
+    let chosenTopic;
+    let queryURL;
+
+    // Sets Default Value for chosenTopic if no argument is passed
+    if (!topic) {
+      chosenTopic = $(this).attr('data-name');
+      queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+    } else if (topic) {
+      chosenTopic = topic;
+      queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+    }
+
+    // Ajax Request
     $.ajax({
       url: queryURL,
       method: 'GET'
@@ -51,42 +62,44 @@ $(document).ready(function() {
       // Keeps graphic section from appending, shows only the most recent result check
       $('#insert-giphy').empty();
       for (let i = 0; i < topics.length; i++) {
-        // these images
         let stillImage = res.data[i].images.fixed_height_still.url;
         let animated_url = res.data[i].images.fixed_height.url; //remove me?
 
-        let dataPlace = res.data[i]; // unecessary?
-
+        let container = $('<div>');
         let imgHolder = $('<img>');
-
-        // imgHolder.attr('data-imageType', stillImage );// remove me?
+        let ratingHolder = $('<p>');
+        let title = $('<p>');
+        let analytics = $('<p>');
 
         imgHolder.attr('src', stillImage);
         imgHolder.attr('data-state', 'still');
         imgHolder.attr('data-still', stillImage);
         imgHolder.attr('data-animate', animated_url);
-        imgHolder.attr('data-item', dataPlace);
-        console.log(dataPlace);
         imgHolder.addClass('giphy-image');
-        $('#insert-giphy').prepend(imgHolder);
-        // $('#insert-giphy').prepend(`<img src="${stillImage )">`);
+
+        ratingHolder.addClass('rating');
+        ratingHolder.html(
+          `<strong>Rated:</strong> ${res.data[i].rating.toUpperCase()}`
+        );
+
+        title.addClass('title');
+        title.html(`<strong>Title:</strong> ${res.data[i].title}`);
+
+        //   $("img").addClass("float-left")
+        $('p').addClass('my-0');
+        $('p.rating').addClass('mb-4');
+        $('div.form-holder').addClass('mt-3 mb-5');
+        container.append(imgHolder);
+        container.append(title);
+        container.append(ratingHolder);
+
+        $('#insert-giphy').append(container);
       }
-
-      // let imagePieces
-      // // {
-      // //   stillImage: stillImage,
-      // //   animated_url: animated_url
-      // // };
-
-      // return imagePieces = {
-      //   stillImage: stillImage,
-      //   animated_url: animated_url
-      // };
     });
   }
 
+  // To Animate or Not to Animate
   function AnimateOrNot() {
-    // To Animate or Not to Animate
     console.log('I exist already and I got clicked!');
     console.log('First This :', this);
     let state = $(this).attr('data-state');
@@ -106,53 +119,25 @@ $(document).ready(function() {
     } else {
       alert('You messed up bad!');
     }
-
-    // $.ajax({
-    //   url: queryURL,
-    //   method: 'GET'
-    // }).then(function() {
-    //   let state = this;
-    //   console.log(state);
-    //   let stillImage = res.data[i].images.fixed_height_still.url;
-    //   let animated_url = res.data[i].images.fixed_height.url;
-    //   console.log(animated_url);
-    //   if (state === 'still') {
-    //     imgHolder.attr('src', animated_url);
-    //     $(this).attr('data-state', 'animated');
-    //   } else if (state === 'animated') {
-    //     imgHolder.attr('src', stillImage);
-    //     $(this).attr('data-state', 'still');
-    //   } else {
-    //     alert('You messed up bad!');
-    //   }
-    // });
   }
-  // When specific image is clicked, make animate, or stop animation
-  // $('.giphies').on('click', 'giphy-image', function() {
-  //   // let gifInQuestion = $(this).("data-imageType")
 
-  //   // To Animate or Not to Animate
-  //   console.log('I exist already and I got clicked!');
-  //   let state = $(this).attr('data-state');
-  //   if (state === 'still') {
-  //     imgHolder.attr('src', animated_url);
-  //     $(this).attr('data-state', 'animated');
-  //   } else if (state === 'animated') {
-  //     imgHolder.attr('src', stillImage );
-  //     $(this).attr('data-state', 'still');
-  //   } else {
-  //     alert('You messed up bad!');
-  //   }
-  // });
+  function addButton(event) {
+    // Prevent form from submitting and causing errors
+    event.preventDefault();
 
+    // Empty the Gif Stack and Buttons
+    $('#insert-giphy').empty();
+    $('#insert-buttons').empty();
+
+    let input = $('#input-text').val();
+    topics.push(input);
+    buttonRender();
+    show10(input);
+  }
   show10();
-  // .then(function (body) {
-  //   console.log(body);
-
-  // })
 
   $('.clickMon').on('click', '.button-topic', show10);
   $('.clickMon').on('click', '.giphy-image', AnimateOrNot);
-
+  $('form').on('click', '.submit-button', addButton);
   buttonRender();
 });
