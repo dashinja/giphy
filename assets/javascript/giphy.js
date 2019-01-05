@@ -43,24 +43,32 @@ $(document).ready(function() {
   function show10(topic = $(this).attr('data-name')) {
     console.log("I'm plain 'this': ", this);
     let test = $(this).attr('data-name');
-    console.log("I'm 'this' before conditional: ", test);
+    console.log("I'm 'this' before conditional/aka test: ", test);
     console.log("I'm chosenTopic before set as this: ", chosenTopic);
+    console.log("I'm default topic: ", topic);
 
     ///////////////////////////////////
     // chosenTopic = $(this).attr('data-name');
-    // queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+    // queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`
     //////////////////////////////////
 
     // Sets Default Value for chosenTopic if no argument is passed
-    if (topic === undefined) {
-      console.log("I'm no arg topic's THIS: ", this);
-      chosenTopic = $(this).attr('data-name');
+    // if (topic === undefined) {
+    //   console.log("I'm no arg topic's THIS: ", this);
+    //   chosenTopic = $(this).attr('data-name');
+    //   queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+    //   console.log("I'm no arg topic: ", chosenTopic);
+    // } else
+    if (topic) {
+      chosenTopic = test;
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
-      console.log("I'm no arg topic: ", chosenTopic);
-    } else if (topic) {
-      chosenTopic = topic;
-      queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+      queryURL = encodeURI(queryURL)
+      console.log("I'm topic when topic is true", topic)
       console.log("I'm supplied topic: ", chosenTopic);
+      console.log("queryurl: ", queryURL)
+    } else {
+      chosenTopic = topic;
+      console.log("I'm else: chosenTopic default: ", chosenTopic)
     }
     //////////////////////////////////////////
 
