@@ -33,20 +33,26 @@ $(document).ready(function() {
 
     for (let i = 0; i < topics.length; i++) {
       buttonMaker = $('<button>');
-      buttonMaker.addClass('button button-topic');
+      buttonMaker.addClass('button button-topic btn-primary');
       buttonMaker.attr('data-name', topics[i]);
       buttonMaker.text(topics[i]);
       $('#insert-buttons').append(buttonMaker);
     }
   }
 
-  function show10(topic) {
+  function show10(topic = $(this).attr('data-name')) {
     console.log("I'm plain 'this': ", this);
     let test = $(this).attr('data-name');
     console.log("I'm 'this' before conditional: ", test);
+    console.log("I'm chosenTopic before set as this: ", chosenTopic);
+
+    ///////////////////////////////////
+    // chosenTopic = $(this).attr('data-name');
+    // queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+    //////////////////////////////////
 
     // Sets Default Value for chosenTopic if no argument is passed
-    if (!topic) {
+    if (topic === undefined) {
       console.log("I'm no arg topic's THIS: ", this);
       chosenTopic = $(this).attr('data-name');
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
@@ -56,6 +62,7 @@ $(document).ready(function() {
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
       console.log("I'm supplied topic: ", chosenTopic);
     }
+    //////////////////////////////////////////
 
     // Ajax Request
     $.ajax({
@@ -73,7 +80,6 @@ $(document).ready(function() {
         let imgHolder = $('<img>');
         let ratingHolder = $('<p>');
         let title = $('<p>');
-        let analytics = $('<p>');
 
         imgHolder.attr('src', stillImage);
         imgHolder.attr('data-state', 'still');
@@ -89,7 +95,6 @@ $(document).ready(function() {
         title.addClass('title');
         title.html(`<strong>Title:</strong> ${res.data[i].title}`);
 
-        //   $("img").addClass("float-left")
         $('p').addClass('my-0');
         $('p.rating').addClass('mb-4');
         $('div.form-holder').addClass('mt-3 mb-5');
