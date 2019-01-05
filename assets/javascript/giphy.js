@@ -41,16 +41,20 @@ $(document).ready(function() {
   }
 
   function show10(topic) {
-    let chosenTopic;
-    let queryURL;
+    console.log("I'm plain 'this': ", this);
+    let test = $(this).attr('data-name');
+    console.log("I'm 'this' before conditional: ", test);
 
     // Sets Default Value for chosenTopic if no argument is passed
     if (!topic) {
+      console.log("I'm no arg topic's THIS: ", this);
       chosenTopic = $(this).attr('data-name');
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+      console.log("I'm no arg topic: ", chosenTopic);
     } else if (topic) {
       chosenTopic = topic;
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
+      console.log("I'm supplied topic: ", chosenTopic);
     }
 
     // Ajax Request
