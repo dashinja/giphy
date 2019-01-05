@@ -62,13 +62,13 @@ $(document).ready(function() {
     if (topic) {
       chosenTopic = test;
       queryURL = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${chosenTopic}&limit=10`;
-      queryURL = encodeURI(queryURL)
-      console.log("I'm topic when topic is true", topic)
+      queryURL = encodeURI(queryURL);
+      console.log("I'm topic when topic is true", topic);
       console.log("I'm supplied topic: ", chosenTopic);
-      console.log("queryurl: ", queryURL)
+      console.log('queryurl: ', queryURL);
     } else {
       chosenTopic = topic;
-      console.log("I'm else: chosenTopic default: ", chosenTopic)
+      console.log("I'm else: chosenTopic default: ", chosenTopic);
     }
     //////////////////////////////////////////
 
@@ -150,6 +150,7 @@ $(document).ready(function() {
     topics.push(input);
     buttonRender();
     show10(input);
+    $('#input-text').empty();
   }
   show10();
 
