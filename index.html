@@ -19,19 +19,33 @@
     <script src="./assets/javascript/giphy.js"></script>
   </head>
   <body>
+    <!---------Header Area--------->
     <header>
       <h1 class="display-3">GIF Haven</h1>
       <h4>Gif Search Your Lights Out</h4>
     </header>
-
-    <!--Buttons Appear Here inside div-->
+    <!---------Main Container------->
     <main class="container">
+      <!-----Buttons Appear Here inside div----->
       <div class="row">
         <div class="clickMon"><div id="insert-buttons"></div></div>
       </div>
       <div class="row">
+        <form action="submit" for="input-text">
+          <span id="input-container">
+            <input type="text" id="input-text" class="input-class" />
+            <input type="submit" id="add-gif" value="Add a Category" />
+          </span>
+        </form>
+      </div>
+      <div class="row">
+        <!--------Image Rendering------->
         <div class="clickMon">
-          <div class="giphies" id="insert-giphy"></div>
+          <!-------Insert Graphics------->
+          <div class="giphies" id="insert-giphy">
+            <!--------------Insert Rating--------->
+            <div id="insert-rating"></div>
+          </div>
         </div>
       </div>
     </main>
