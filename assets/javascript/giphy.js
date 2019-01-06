@@ -104,7 +104,7 @@ $(document).ready(function() {
         title.html(`<strong>Title:</strong> ${res.data[i].title}`);
 
         $('p').addClass('my-0');
-        $('p.rating').addClass('mb-4');
+        $('p.rating').addClass('mb-4 mt-0');
         $('div.form-holder').addClass('mt-3 mb-5');
         container.append(imgHolder);
         container.append(title);
