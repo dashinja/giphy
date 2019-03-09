@@ -60,7 +60,7 @@ $(document).ready(function() {
       $('#insert-giphy').empty()
       for (let i = 0; i < topics.length; i++) {
         let stillImage = res.data[i].images.fixed_height_still.url
-        let animated_url = res.data[i].images.fixed_height.url //remove me?
+        let animated_url = res.data[i].images.fixed_height.url
 
         let container = $('<div>')
         let imgHolder = $('<img>')
